@@ -1,0 +1,129 @@
+/* ============================= */
+/* Estilos base (legibles y estilo Netflix) */
+/* ============================= */
+body, html {
+  min-height: auto;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.05rem;
+  color: #fff;
+  background: 
+    linear-gradient(to right, rgba(0,8,29,0.9) 23.8%, rgba(0,28,29,0.12) 96.1%);
+  background-attachment: fixed;
+}
+
+/* ============================= */
+/* Logo Netflix */
+/* ============================= */
+.logo img {
+  width: 180px;
+  height: auto;
+}
+
+/* Contenedor de encabezado (logo + título) */
+.encabezado-flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+/* ============================= */
+/* Textarea con contador */
+/* ============================= */
+.position-relative {
+  position: relative;
+}
+
+textarea#userInput {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  resize: none;
+  color: black;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.contador-interno {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  font-size: 0.9rem;
+  color: #6c757d;
+  pointer-events: none;
+  background-color: transparent;
+}
+
+/* ============================= */
+/* Botón enviar estilo Netflix */
+/* ============================= */
+button {
+  padding: 15px 25px;
+  background-color: #e50914;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #fc0512;
+}
+
+/* ============================= */
+/* Respuesta del chat */
+/* ============================= */
+#response {
+  margin: 2rem auto 0;
+  max-width: 600px;
+  background-color: rgba(0,0,0,0.5);
+  padding: 15px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  font-size: 1rem;
+}
+
+/* ============================= */
+/* Módulos recomendados */
+/* ============================= */
+.modulos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px,1fr));
+  gap: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ============================= */
+/* Responsive */
+/* ============================= */
+@media (max-width: 767.98px) {
+  .contador-interno {
+    font-size: 0.9rem;
+    right: 10px;
+  }
+
+  textarea#userInput,
+  button,
+  #response {
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============================= */
+/* Sobrescribir Bootstrap .text-muted */
+/* ============================= */
+p.text-muted {
+  color: #ffffff !important;
+}
