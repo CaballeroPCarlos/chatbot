@@ -34,7 +34,7 @@ async function sendMessage() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "mistralai/mistral-7b-instruct:free",
+        model: "deepseek-ai/deepseek-llm-67b-chat:free",
         messages: [
           {
             role: "system",
