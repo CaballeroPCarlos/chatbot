@@ -13,38 +13,49 @@ $api_keys = [
 ];
 
 $response = null;
-$httpcode = 500;
+$httpCode = 500;
 
 // Probar cada clave hasta que una funcione
 foreach ($api_keys as $key) {
   if (!$key) continue;
 
-  $ch = curl_init("https://openrouter.ai/api/v1/chat/completions");
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_POST, true);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-  curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Content-Type: application/json",
-    "Authorization: Bearer $key"
-  ]);
+  $options = [
+    'http' => [
+      'method'  => 'POST',
+      'header'  => [
+        "Content-Type: application/json",
+        "Authorization: Bearer $key"
+      ],
+      'content' => $body,
+      'ignore_errors' => true
+    ]
+  ];
 
-  $response = curl_exec($ch);
-  $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-  $curl_error = curl_error($ch);
-  curl_close($ch);
+  $context = stream_context_create($options);
+  $response = @file_get_contents("https://openrouter.ai/api/v1/chat/completions", false, $context);
 
-  // Si hay éxito (código 2xx) y respuesta válida, salir del bucle
-  if ($httpcode >= 200 && $httpcode < 300 && $response) {
+  // Extraer el código de respuesta HTTP
+  $httpCode = 500;
+  if (isset($http_response_header)) {
+    foreach ($http_response_header as $header) {
+      if (preg_match('#HTTP/\d+\.\d+ (\d+)#', $header, $matches)) {
+        $httpCode = intval($matches[1]);
+        break;
+      }
+    }
+  }
+
+  if ($httpCode >= 200 && $httpCode < 300 && $response) {
     break;
   }
 }
 
-// Respuesta al cliente (JS)
-header("Access-Control-Allow-Origin: *"); // opcional para CORS
+// Enviar respuesta al frontend
+header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
-http_response_code($httpcode);
+http_response_code($httpCode);
 
 echo $response ?: json_encode([
   "error" => "No se pudo procesar la solicitud.",
-  "detalle" => $curl_error ?? "Todas las claves fallaron"
+  "detalle" => "Todas las claves fallaron o no hay respuesta válida."
 ]);
