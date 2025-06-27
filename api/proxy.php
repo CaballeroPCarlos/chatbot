@@ -2,25 +2,37 @@
 // Leer la clave secreta desde las variables de entorno
 $api_key = getenv("DEEPSEEK_API_KEY");
 
-// Leer el body enviado por el navegador
+// Leer el cuerpo enviado por el navegador
 $body = file_get_contents('php://input');
 
-// Reenviar la solicitud al API de DeepSeek
-$ch = curl_init("https://api.deepseek.com/v1/chat/completions");
+// Preparar contexto HTTP para enviar solicitud POST
+$options = [
+  'http' => [
+    'method'  => 'POST',
+    'header'  => [
+      "Content-Type: application/json",
+      "Authorization: Bearer $api_key"
+    ],
+    'content' => $body,
+    'ignore_errors' => true // Captura errores HTTP también
+  ]
+];
 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-  "Content-Type: application/json",
-  "Authorization: Bearer $api_key"
-]);
+$context  = stream_context_create($options);
+$response = file_get_contents("https://api.deepseek.com/v1/chat/completions", false, $context);
 
-$response = curl_exec($ch);
-$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+// Obtener el código HTTP devuelto
+$httpCode = 200;
+if (isset($http_response_header)) {
+  foreach ($http_response_header as $header) {
+    if (preg_match('#HTTP/\d+\.\d+ (\d+)#', $header, $matches)) {
+      $httpCode = intval($matches[1]);
+      break;
+    }
+  }
+}
 
-// Reenviar la respuesta original al frontend
-http_response_code($httpcode);
+// Devolver la respuesta al navegador
+http_response_code($httpCode);
 header("Content-Type: application/json");
 echo $response;
