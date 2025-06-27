@@ -1,11 +1,11 @@
 <?php
-// Leer la clave secreta desde las variables de entorno
-$api_key = getenv("DEEPSEEK_API_KEY");
+// Leer clave desde variable de entorno
+$api_key = getenv("OPENROUTER_API_KEY");
 
-// Leer el cuerpo enviado por el navegador
+// Leer cuerpo JSON del navegador
 $body = file_get_contents('php://input');
 
-// Preparar contexto HTTP para enviar solicitud POST
+// Crear contexto para solicitud POST
 $options = [
   'http' => [
     'method'  => 'POST',
@@ -14,14 +14,14 @@ $options = [
       "Authorization: Bearer $api_key"
     ],
     'content' => $body,
-    'ignore_errors' => true // Captura errores HTTP también
+    'ignore_errors' => true
   ]
 ];
 
 $context  = stream_context_create($options);
-$response = file_get_contents("https://api.deepseek.com/v1/chat/completions", false, $context);
+$response = file_get_contents("https://openrouter.ai/api/v1/chat/completions", false, $context);
 
-// Obtener el código HTTP devuelto
+// Extraer código HTTP de la respuesta
 $httpCode = 200;
 if (isset($http_response_header)) {
   foreach ($http_response_header as $header) {
@@ -32,7 +32,6 @@ if (isset($http_response_header)) {
   }
 }
 
-// Devolver la respuesta al navegador
 http_response_code($httpCode);
 header("Content-Type: application/json");
 echo $response;

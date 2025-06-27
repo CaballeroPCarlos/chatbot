@@ -2,7 +2,7 @@
 
 async function sendMessage() {
   const input = document.getElementById('userInput').value;
-  const button = document.getElementById('enviarBtn'); // ← Ya no usa querySelector
+  const button = document.getElementById('enviarBtn');
 
   button.disabled = true;
   button.textContent = "Procesando...";
@@ -14,7 +14,7 @@ async function sendMessage() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "deepseek-chat",
+        model: "mistralai/mistral-7b-instruct:free",
         messages: [
           {
             role: "system",
@@ -23,9 +23,9 @@ async function sendMessage() {
             - Nutrición (alimentación, comida saludable, dieta, anemia, hábitos)
             - Coach laboral (trabajo, empleo, currículum, dinero, vocación)
             - Crianza (bebé, embarazo, lactancia, salud del niño, parto)
-            Responde en femenino, con lenguaje sencillo y respetuoso, sin diagnósticos ni emergencias
-            De forma implicita: considera que la mayoría son adolescentes o madres adolescentes, en una Casa Hogar, osea, en estado de abandono
-            Tratalas como a cualquier otra persona, con respeto
+            Responde en femenino, con lenguaje sencillo y respetuoso, sin diagnósticos ni emergencias.
+            De forma implícita: considera que la mayoría son adolescentes o madres adolescentes, en una Casa Hogar, o sea, en estado de abandono.
+            Trátalas como a cualquier otra persona, con respeto.
             Si es inapropiado (violento, sexual, discriminatorio, político, religioso o peligroso),
             indica que no puedes responder y sugiere explorar los módulos.
             Si preguntan quién eres, di que eres Carmencita, asistente virtual para bienestar personal y familiar, en la Casa Hogar Virgen del Carmen.
