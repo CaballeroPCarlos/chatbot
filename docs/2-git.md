@@ -1,5 +1,20 @@
 # Documentación de Comandos Básicos de Git y Terminal
 
+## ¿Qué es Git y cómo usarlo?
+
+**Git** es un sistema de control de versiones distribuido que permite gestionar el historial de cambios en proyectos de software, trabajar en equipo y mantener sincronizado el código.
+
+En **Windows**, Git se utiliza principalmente a través de **Git Bash**, una terminal que se instala junto con Git. Para abrirla en una carpeta específica, simplemente **haz clic derecho dentro de la carpeta y selecciona “Git Bash Here”**.
+
+### 📥 Descarga e instalación
+
+Puedes descargar Git desde su sitio oficial:
+
+👉 [https://git-scm.com](https://git-scm.com)
+
+Una vez instalado, puedes abrir Git Bash y ejecutar `git --version` para comprobar que funciona correctamente.
+
+
 ## Creación y Navegación de Carpetas
 
 ```bash
